@@ -1,0 +1,8 @@
+This script tries to login to Reliance Broadband and works well in Megacenter, Hadapsar, Pune.
+The output messages are as follows:
+
+Sudhanshus-MacBook-Pro:reliance sudhanshuraheja$ php index.php 
+Time ## Message
+   0 ## trying to post [yourusername, yourpassword] to the login url [http://220.224.142.229/reliance/startportal_isg.do?CPURL=null]
+   5 __ you have successfully logged in
+

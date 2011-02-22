@@ -13,6 +13,8 @@
 		private $loggedin_url;
 		private $is_logged_in;
 
+		private $start_time;
+
 		private $curl;
 
 		public function __construct() {
@@ -21,24 +23,28 @@
 			$this->base = '220.224.142.229';
 			$this->login_url = 'http://' . $this->base . '/reliance/startportal_isg.do?CPURL=null';
 
+			$this->start_time = time();
+
 			$this->curl = new Curl();
 		}
 
 		public function login() {
+			echo 'Time ## Message' . "\n";
 			if(!$this->is_logged_in) {
 				do {
-					echo 'trying to post [' . $this->username . ', ' . $this->password . '] to the login url [' . $this->login_url . "]\n";
+					$time_passed = str_pad(time() - $this->start_time, 4, ' ', STR_PAD_LEFT);
+					echo $time_passed . ' ## trying to post [' . $this->username . ', ' . $this->password . '] to the login url [' . $this->login_url . "]\n";
 					$data = $this->curl->post($this->login_url, 'userId=' . $this->username . '&password=' . $this->password);
 					// If the user logs in, the username shows up on the page after login
 					$this->is_logged_in = (strpos($data, $this->username) !== false);
 					if( !$this->is_logged_in ) {
-						echo '- - - waiting for 10 seconds before trying again - - -' . "\n";
+						$time_passed = str_pad(time() - $this->start_time, 4, ' ', STR_PAD_LEFT);
+						echo $time_passed . ' ## - - - waiting for 10 seconds before trying again - - -' . "\n";
 						// Wait for 10 seconds before you try again
 						sleep(10);
 					} else {
-						echo '===============================' . "\n";
-						echo 'you have successfully logged in' . "\n";
-						echo '===============================' . "\n";
+						$time_passed = str_pad(time() - $this->start_time, 4, ' ', STR_PAD_LEFT);
+						echo $time_passed . ' __ you have successfully logged in' . "\n";
 					}
 				} while(!$this->is_logged_in);
 			}
